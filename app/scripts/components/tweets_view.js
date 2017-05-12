@@ -20,11 +20,11 @@ class postsView extends React.Component {
                 </section>
         )
     }
-    getState() {
-        posts.forEach( (post) => {
-      (new postView(store, post));
-    });
-    }
+    // getState() {
+    //     posts.forEach( (post) => {
+    //   (new postView(store, post));
+    // });
+    // }
     handleClick () {
         e.preventDefault();
         let newPostBody = this.refs.new-post.value;

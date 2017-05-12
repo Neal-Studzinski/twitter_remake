@@ -1,7 +1,7 @@
 
-export default function loginUser (user,password) {
+export default function loginUser (user,password,displayName) {
   return (dispatch) => {
-    dispatch({ type: "SIGNIN", login: user, password: password });
+    dispatch({ type: "SIGNUP", login: user, password: password, displayName: displayName });
     //dispatch(loadTodos());
   }
 }

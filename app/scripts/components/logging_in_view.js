@@ -10,13 +10,13 @@ class logging_in_view extends React.Component {
     }
 
     render() {
-        return  (<section class="page-wrapper chat-view">
-                    <div class="view-content">
+        return  (<section className="page-wrapper chat-view">
+                    <div className="view-content">
                         <h2>signing in</h2>
                     </div>
                 </section>)
     }
-
+    
   // return html of view
 
 }

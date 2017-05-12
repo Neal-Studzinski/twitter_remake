@@ -15,7 +15,8 @@ class signUpView extends React.Component {
         e.preventDefault();
         let username = this.refs.email.value;
         let password = this.refs.password.value;
-        this.props.dispatch(loginUser(username,password));
+        let displayName = this.refs.displayName.value;
+        this.props.dispatch(loginUser(username,password,displayName));
         this.props.history.push("/signing_in")
     }
 

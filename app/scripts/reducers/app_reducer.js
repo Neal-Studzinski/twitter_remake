@@ -17,8 +17,6 @@ const initialState = {
         user: {},
         userToken: ''
         },
-    loadingTweets: false,
-    view: loginView,
     posts: [],
     users: []
 };
@@ -26,8 +24,11 @@ const initialState = {
 export default function reducer(currentState, action) {
     const urls = {
           posts: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts',
-          users: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/Users'
+          users: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/Users',
+          register: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/register'
         };
+
+
     var newState = utils.newState(currentState);
 
     if (currentState === undefined) {
@@ -35,25 +36,22 @@ export default function reducer(currentState, action) {
         }
 
     switch (action.type) {
-        case 'SIGNIN':
+        case 'SIGNUP':
             let retrievedUserToken;
-
-
 
             $.ajax({
                 type: 'POST',
-                url: urls.users,
+                url: urls.register,
                 dataType: 'JSON',
                 headers: {
-                    //"application-id": applicationId,
-                    //"secret-key": secretKey,
                     "Content-Type": "application/json",
                     "application-type": "REST"
-                    },
-                    data: JSON.stringify({
-                        email: action.login,
-                        password: action.password
-                        })
+                        },
+                data: JSON.stringify({
+                    email: action.login,
+                    password: action.password,
+                    displayName: action.displayName
+                    })
                     }).then( (data, status, xhr) => {
                         retrievedUserToken = data['user-token'];
                         store.dispatch({
@@ -69,32 +67,28 @@ export default function reducer(currentState, action) {
                             });
                         });
 
-                        return utils.copyState(currentState, {
-                            view: loginView,
-
-                            });
+                return newState;
 
 
 
             case "LOAD_POSTS_SIGNING_IN":
+
                 return utils.copyState(currentState, {
                 session: {
                     user: action.user,
                     userToken: action.userToken
                     },
-                view: loadingPostsView
-            });
+
+                });
                 $.ajax({
                     url: urls.posts,
                     method: "GET",
                     headers: {
-                        //"application-id": applicationId,
-                        //"secret-key": secretKey,
                         "user-token": newState.session.userToken
                         }
-                    }).then( (postsData, status, xhr) => {
-                        console.log('>> returned post data: ', postsData);
-                        let postObjects = postsData.data.map( (post) => {
+                        }).then( (postsData, status, xhr) => {
+                            console.log('>> returned post data: ', postsData);
+                            let postObjects = postsData.data.map( (post) => {
                             console.log(post);
                             return new Post({
                                 postId:             post.objectId,
@@ -104,14 +98,14 @@ export default function reducer(currentState, action) {
                                 authorAvatar:       post.authorAvatar,
                                 body:               post.body,
                                 timePosted:         post.created
+                                });
+                            });
+                            console.log('>> put into Post objects: ', postObjects);
+                            store.dispatch({
+                                type: "VIEW_POSTS",
+                                posts: postObjects
                             });
                         });
-                        console.log('>> put into Post objects: ', postObjects);
-                        store.dispatch({
-                            type: "VIEW_POSTS",
-                            posts: postObjects
-                        });
-                    });
 
                     return newState;
 
@@ -121,37 +115,33 @@ export default function reducer(currentState, action) {
                     url: urls.posts,
                     method: "GET",
                     headers: {
-                        //"application-id": applicationId,
-                        //"secret-key": secretKey,
                         "user-token": currentState.session.userToken
                         }
-                    }).then( (postsData, status, xhr) => {
-                        let postObjects = postsData.data.map( (post) => {
-                            console.log(post);
-                            return new Post({
-                                authorId:           post.authorId,
-                                authorUserName:     post.authorUserName,
-                                authorDisplayName:  post.authorDisplayName,
-                                authorAvatar:       post.authorAvatar,
-                                body:               post.body
+                        }).then( (postsData, status, xhr) => {
+                            let postObjects = postsData.data.map( (post) => {
+                                console.log(post);
+                                return new Post({
+                                    authorId:           post.authorId,
+                                    authorUserName:     post.authorUserName,
+                                    authorDisplayName:  post.authorDisplayName,
+                                    authorAvatar:       post.authorAvatar,
+                                    body:               post.body
+                                });
+                            });
+                            console.log('>> put into Post objects: ', postObjects);
+                            store.dispatch({
+                                type: "VIEW_POSTS",
+                                posts: postObjects
                             });
                         });
-                        console.log('>> put into Post objects: ', postObjects);
-                        store.dispatch({
-                            type: "VIEW_POSTS",
-                            posts: postObjects
-                        });
-                    });
 
-                    return newState({view: loadingPostsView});
+                        return newState();
 
             case 'VIEW_POSTS':
+                this.props.history.push("/showing_tweets");
                 return newState = {
-                        view: postsView,
                         posts: action.posts
                         };
-
-
 
             case 'NEW_POST':
                 console.log('!! POSTING !!', action.postInfo);
@@ -160,8 +150,6 @@ export default function reducer(currentState, action) {
                     type: 'POST',
                     dataType: 'JSON',
                     headers: {
-                        //"application-id": applicationId,
-                        //"secret-key": secretKey,
                         "user-token": currentState.session.userToken,
                         "Content-Type": "application/json",
                         "application-type": "REST"
@@ -179,7 +167,7 @@ export default function reducer(currentState, action) {
                         });
                     });
 
-                    return currentState;
+                    return newState;
 
             default:
                 console.debug(`Unhandled Action: ${action.type}!`);

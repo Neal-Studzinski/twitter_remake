@@ -4,6 +4,7 @@ import loginView from './components/login_view.js';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
+import { connect } from 'react-redux';
 import AppRoot from "./components/app_root.js";
 import reducer from './reducers/app_reducer.js';
 import LoggingInView from './components/logging_in_view.js';
