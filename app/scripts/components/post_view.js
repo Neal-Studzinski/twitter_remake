@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class tweetView extends React.Component {
+class postView extends React.Component {
     render () {
       return (<section className="tweetDeck">
                 <div className="view_content">
