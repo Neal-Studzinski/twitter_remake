@@ -5,7 +5,7 @@ import { Route, Link, NavLink } from 'react-router-dom';
 import container from '../containers/all.js';
 import loginUser from '../actions/login_user.js'
 
-class loginView extends React.Component {
+class signUpView extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -22,15 +22,16 @@ class loginView extends React.Component {
 
     // Create html
     render() {
-        return(<section className="login">
+        return(<section className="signUp">
                     <h1>Tweeter</h1>
-                    <h2>sign in</h2>
+                    <h2>Sign Up for an Account</h2>
 
                     <div>
                         <form id="login-form" onSubmit={this.handleClick}>
-                            <input className="input-email" type="text" ref="email" placeholder="email…" />
-                            <input className="input-password" type="password" ref="password" placeholder="password…" />
-                            <button className="btn btn-signin" >sign in</button>
+                            <input className="input-email" type="text" ref="email" placeholder="email…" /><br />
+                            <input className="input-password" type="password" ref="password" placeholder="password…" /><br />
+                            <input className="input-displayName" type="text" ref="displayName" placeholder="displayName..."/><br />
+                            <button className="btn btn-signin" >Sign Up</button>
                         </form>
                     </div>
                 </section>)
@@ -49,4 +50,4 @@ class loginView extends React.Component {
     // // return html of view
     }
 }
-export default connect(state => state)(loginView)
+export default connect(state => state)(signUpView)

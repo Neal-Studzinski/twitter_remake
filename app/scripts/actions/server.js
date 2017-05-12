@@ -1,20 +1,21 @@
-const APPLICATION_ID = "A3E8487F-3843-57B1-FFD9-292137BD0E00";
-const SECRET_KEY = "0DB613BB-B529-891F-FF9F-0DF48E631900";
-const URLS = {
-    posts: 'https://api.backendless.com/v1/data/posts',
-    users: 'https://api.backendless.com/v1/users/login'
-}
 
-export default function server() {
+
+export default function Server() {
+
+    const urls = {
+          posts: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts',
+          users: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/Users'
+        };
+
 
     login: (store) => {
         $.ajax({
             type: 'POST',
-            url: URLS.users,
+            url: urls.users,
             dataType: 'JSON',
             headers: {
-                "application-id": APPLICATION_ID,
-                "secret-key" : SECRET_KEY,
+                //"application-id": APPLICATION_ID,
+                //"secret-key" : SECRET_KEY,
                 "ContentType" : "application/json",
                 "application-type" : "REST"
             },
@@ -37,15 +38,15 @@ export default function server() {
         });
     },
 
-    getAllTweets: function () {
+    function getAllTweets() {
         $.getJSON(url).then((data) => {
             store.dispatch(actions.tweetsLoaded(data));
         });
     },
 
-    createNewTweet: function(tweet) {
+    function createNewTweet(tweet) {
         $.ajax({
-            url: URLS.posts,
+            url: urls.posts,
             type: "POST",
             dataType: "JSON",
             data: {
@@ -56,9 +57,9 @@ export default function server() {
         });
 
     },
-    deleteTweet: function(tweet) {
+    function deleteTweet(tweet) {
         $.ajax({
-            url: `${URLS.posts}/${tweet.id}`,
+            url: `${urls.posts}/${tweet.id}`,
             type: 'DELETE',
         }).then(() => {
             store.dispatch(actions, loadTweets())

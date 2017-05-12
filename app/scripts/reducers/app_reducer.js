@@ -1,36 +1,57 @@
-import React from 'react';
-import { createStore } from 'redux';
+import React from "react";
+import store from "../store.js";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import { connect } from 'react-redux';
+import utils from '../utils.js';
+import tweetView from '../components/tweet_view.js';
+import loginView from '../components/login_view.js';
+import User from '../models/user_model.js';
+import Post from '../models/post_model.js';
+import Server from '../actions/server.js';
+import loadingPostsView from '../components/logging_in_view';
+
+const initialState = {
+    session: {
+        user: {},
+        userToken: ''
+        },
+    loadingTweets: false,
+    view: loginView,
+    posts: [],
+    users: []
+};
 
 export default function reducer(currentState, action) {
+    const urls = {
+          posts: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts',
+          users: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/Users'
+        };
+    var newState = utils.newState(currentState);
 
     if (currentState === undefined) {
         return initialState;
         }
 
-        switch (action.type) {
+    switch (action.type) {
+        case 'SIGNIN':
+            let retrievedUserToken;
 
-            case "START":
-                return currentState;
 
-            case 'SIGNIN':
-                var newState = {
-                view: signingInView
-                };
-
-                let retrievedUserToken;
 
             $.ajax({
                 type: 'POST',
                 url: urls.users,
                 dataType: 'JSON',
                 headers: {
-                    "application-id": applicationId,
-                    "secret-key": secretKey,
+                    //"application-id": applicationId,
+                    //"secret-key": secretKey,
                     "Content-Type": "application/json",
                     "application-type": "REST"
                     },
                     data: JSON.stringify({
-                        login: action.login,
+                        email: action.login,
                         password: action.password
                         })
                     }).then( (data, status, xhr) => {
@@ -48,24 +69,27 @@ export default function reducer(currentState, action) {
                             });
                         });
 
-                        return Object.assign({}, currentState, newState);
+                        return utils.copyState(currentState, {
+                            view: loginView,
+
+                            });
+
 
 
             case "LOAD_POSTS_SIGNING_IN":
-                var newState = {
-                    session: {
-                        user: action.user,
-                        userToken: action.userToken
-                        },
-                    view: loadingPostsView
-                    };
-
+                return utils.copyState(currentState, {
+                session: {
+                    user: action.user,
+                    userToken: action.userToken
+                    },
+                view: loadingPostsView
+            });
                 $.ajax({
                     url: urls.posts,
                     method: "GET",
                     headers: {
-                        "application-id": applicationId,
-                        "secret-key": secretKey,
+                        //"application-id": applicationId,
+                        //"secret-key": secretKey,
                         "user-token": newState.session.userToken
                         }
                     }).then( (postsData, status, xhr) => {
@@ -89,18 +113,16 @@ export default function reducer(currentState, action) {
                         });
                     });
 
-                    return Object.assign({}, currentState, newState);
+                    return newState;
+
 
             case "LOAD_POSTS":
-                var newState = {
-                    view: loadingPostsView
-                    };
                 $.ajax({
                     url: urls.posts,
                     method: "GET",
                     headers: {
-                        "application-id": applicationId,
-                        "secret-key": secretKey,
+                        //"application-id": applicationId,
+                        //"secret-key": secretKey,
                         "user-token": currentState.session.userToken
                         }
                     }).then( (postsData, status, xhr) => {
@@ -121,15 +143,15 @@ export default function reducer(currentState, action) {
                         });
                     });
 
-                    return Object.assign({}, currentState, newState);
+                    return newState({view: loadingPostsView});
 
             case 'VIEW_POSTS':
-                var newState = {
-                    view: postsView,
-                    posts: action.posts
-                    };
+                return newState = {
+                        view: postsView,
+                        posts: action.posts
+                        };
 
-                    return Object.assign({}, currentState, newState);
+
 
             case 'NEW_POST':
                 console.log('!! POSTING !!', action.postInfo);
@@ -138,8 +160,8 @@ export default function reducer(currentState, action) {
                     type: 'POST',
                     dataType: 'JSON',
                     headers: {
-                        "application-id": applicationId,
-                        "secret-key": secretKey,
+                        //"application-id": applicationId,
+                        //"secret-key": secretKey,
                         "user-token": currentState.session.userToken,
                         "Content-Type": "application/json",
                         "application-type": "REST"
