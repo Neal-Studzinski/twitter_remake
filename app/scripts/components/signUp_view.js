@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Link, NavLink } from 'react-router-dom';
 import container from '../containers/all.js';
 import loginUser from '../actions/login_user.js'
+import signUp from '../actions/sign_up.js';
 
 class signUpView extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class signUpView extends React.Component {
         let email = this.refs.email.value;
         let password = this.refs.password.value;
         let displayName = this.refs.displayName.value;
-        this.props.dispatch(loginUser(email,password,displayName));
+        this.props.dispatch(signUp(email,password,displayName));
         this.props.history.push("/signing_in");
 
     }

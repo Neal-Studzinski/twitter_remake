@@ -40,18 +40,26 @@ export default function reducer(currentState, action) {
         case 'CREATE_USER':
             console.log('I added a user');
             console.log(action);
-            // newState = {
-            //     username: action.username
-            //     };
+            return newState({
+                session: {
+                    user: action.user,
+                    userToken: action.token
+                }});
 
-          return Object.assign({}, currentState, { loadingData: true })
+            // return newState = {
+            //     email: action.email,
+            //     password: action.password,
+            //     displayName: action.displayName
+            //    };
+
+
 
         case 'LOGIN':
 
         case 'STARTING_LOGIN':
 
         case 'STARTING_LOAD_POSTS_SIGNING_IN':
-          return Object.assign({}, currentState, { loadingData: false })
+          //return currentState;
 
 
         case "LOAD_POSTS_SIGNING_IN":

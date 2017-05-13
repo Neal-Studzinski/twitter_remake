@@ -1,7 +1,7 @@
 
-export default function loginUser (email,password,displayName) {
+export default function loginUser (email,password) {
     return (dispatch) => {
-        dispatch({ type: "STARTING_LOGIN", email: email, password: password, displayName: displayName });
+        dispatch({ type: "STARTING_LOGIN", email: email, password: password });
         //dispatch(loadTodos());
 
         login: (store) => {
@@ -18,7 +18,7 @@ export default function loginUser (email,password,displayName) {
                 data: JSON.stringify({
                     email: action.email,
                     password: action.password,
-                    displayName: action.displayName
+
                 })
                 }).then( (data,status,xhr) => {
                     receivedUserToken = data['user-token'];
