@@ -5,8 +5,14 @@ export default function deletePost (post) {
       dispatch( { type: "STARTING_DELETE_POST" });
       //Do the ajax call
       $.ajax({
-            url: `${'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts'}/${post.id}`,
+            url: `${'https://api.backendless.com/v1/data/posts'}/${post.id}`,
             type: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "application-type": "REST",
+                "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
+                "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
+                 },
             }).then(() => {
                 store.dispatch(actions, load_posts())
                 dispatch( { type: "ENDING_DELETE_POST" });

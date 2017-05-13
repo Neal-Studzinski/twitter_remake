@@ -7,21 +7,23 @@ export default function signUp () {
 
        $.ajax({
            type: 'POST',
-           url: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/register',
+           url: 'https://api.backendless.com/v1/data/Users',
            dataType: 'JSON',
            headers: {
                "Content-Type": "application/json",
-               "application-type": "REST"
+               "application-type": "REST",
+               "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
+               "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
                 },
                 data: JSON.stringify({
-                    email: action.login,
+                    email: action.email,
                     password: action.password,
                     displayName: action.displayName
                 })
                 }).then( (data, status, xhr) => {
                     retrievedUserToken = data['user-token'];
-                    store.dispatch({
-                        type: "LOAD_POSTS_SIGNING_IN",
+                    dispatch({
+                        type: "CREATE_USER",
                         user: new User({
                             id : data.objectId,
                             userName : data.userName,
@@ -36,5 +38,5 @@ export default function signUp () {
         return currentState;
 
       //dispatch( { type: "ENDING_EXAMPLE_ASYNC" });
-    })
+    }
   }

@@ -9,9 +9,10 @@ import AppRoot from "./components/app_root.js";
 import reducer from './reducers/app_reducer.js';
 import LoggingInView from './components/logging_in_view.js';
 import signUpView from './components/signUp_view.js';
-import postsView from './components/tweets_view.js';
-import tweetView from './components/tweet_view.js';
+import postsView from './components/posts_view.js';
+import postView from './components/post_view.js';
 import headerView from './components/header_view.js';
+
 
 export default function app() {
   render(
@@ -22,8 +23,8 @@ export default function app() {
           <Route exact path="/header" component={headerView} />
           <Route exact path="/login" component={loginView} />
           <Route exact path="/signing_in" component={LoggingInView} />
-          <Route exact path="/showing_tweets" component={postsView} />
-          <Route exact path="/showing_tweet" component={tweetView} />
+          <Route exact path="/showing_posts" component={postsView} />
+          <Route exact path="/showing_post" component={postView} />
         </div>
       </Router>
     </Provider>,

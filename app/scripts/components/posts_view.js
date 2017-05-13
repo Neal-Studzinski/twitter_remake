@@ -1,6 +1,6 @@
 import React from 'react';
 import headerView from './header_view.js';
-import tweetView from './tweet_view.js';
+import postView from './post_view.js';
 import { connect } from 'react-redux';
 import store from '../store.js';
 
@@ -36,7 +36,7 @@ class postsView extends React.Component {
             authorAvatar:       state.session.user.avatar || '',
             body:               newPostBody
           };
-         store.dispatch({
+        dispatch({
             type: 'NEW_POST',
             postInfo: newPostInfo
           });

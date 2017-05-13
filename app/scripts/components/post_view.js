@@ -15,4 +15,4 @@ class postView extends React.Component {
     }
   }
 
-  export default tweetView
+  export default postView

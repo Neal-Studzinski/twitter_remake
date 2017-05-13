@@ -10,6 +10,8 @@ import loginView from '../components/login_view.js';
 import User from '../models/user_model.js';
 import Post from '../models/post_model.js';
 import loadingPostsView from '../components/logging_in_view';
+import signUp from '../actions/sign_up.js';
+import signUpView from '../components/signUp_view.js';
 
 const initialState = {
     session: {
@@ -17,10 +19,12 @@ const initialState = {
         userToken: ''
         },
     posts: [],
-    users: []
+    users: [],
+    loadingData: false
 };
 
 export default function reducer(currentState, action) {
+
 
     const newState = utils.newState(currentState);
 
@@ -31,18 +35,45 @@ export default function reducer(currentState, action) {
     switch (action.type) {
 
         case 'SIGNUP':
+            return currentState;
+
+        case 'CREATE_USER':
+            console.log('I added a user');
+            console.log(action);
+            // newState = {
+            //     username: action.username
+            //     };
+
+          return Object.assign({}, currentState, { loadingData: true })
+
+        case 'LOGIN':
+
+        case 'STARTING_LOGIN':
+
+        case 'STARTING_LOAD_POSTS_SIGNING_IN':
+          return Object.assign({}, currentState, { loadingData: false })
+
 
         case "LOAD_POSTS_SIGNING_IN":
 
+        case 'STARTING_LOAD_POSTS':
+
+        case 'STARTING_GETTING_ALL_POSTS':
+
         case "LOAD_POSTS":
 
+        case 'ENDING_GETTING_ALL_POSTS':
+
         case 'VIEW_POSTS':
-            this.props.history.push("/showing_tweets");
+            //this.props.history.push("/showing_posts");
             return newState({
                     posts: action.posts
                 });
+        case 'STARTING_NEW_POST':
 
         case 'NEW_POST':
+
+        case 'DELETE_POST':
 
 
         default:

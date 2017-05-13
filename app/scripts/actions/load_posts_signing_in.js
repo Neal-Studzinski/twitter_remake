@@ -4,12 +4,14 @@ export default function loadPostsSignUp () {
 
     //Before ajax call dispatch any needed actions
         dispatch( { type: "STARTING_LOAD_POSTS_SIGNING_IN" });
-                }
+
         $.ajax({
-            url: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts',
+            url: 'https://api.backendless.com/v1/data/posts',
             method: "GET",
             headers: {
-                "user-token": newState.session.userToken
+                "user-token": newState.session.userToken,
+                "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
+                "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
                 }
                 }).then( (postsData, status, xhr) => {
                     console.log('>> returned post data: ', postsData);
@@ -26,7 +28,7 @@ export default function loadPostsSignUp () {
                         });
                     });
                     console.log('>> put into Post objects: ', postObjects);
-                    store.dispatch({
+                    dispatch({
                         type: "VIEW_POSTS",
                         posts: postObjects
                     });

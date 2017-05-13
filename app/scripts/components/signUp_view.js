@@ -13,11 +13,12 @@ class signUpView extends React.Component {
 
     handleClick (e) {
         e.preventDefault();
-        let username = this.refs.email.value;
+        let email = this.refs.email.value;
         let password = this.refs.password.value;
         let displayName = this.refs.displayName.value;
-        this.props.dispatch(loginUser(username,password,displayName));
-        this.props.history.push("/signing_in")
+        this.props.dispatch(loginUser(email,password,displayName));
+        this.props.history.push("/signing_in");
+
     }
 
 

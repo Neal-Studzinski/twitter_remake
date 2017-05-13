@@ -1,27 +1,29 @@
 
-export default function loginUser (user,password) {
+export default function loginUser (email,password,displayName) {
     return (dispatch) => {
-        dispatch({ type: "STARTING_LOGIN", login: user, password: password });
+        dispatch({ type: "STARTING_LOGIN", email: email, password: password, displayName: displayName });
         //dispatch(loadTodos());
-        }
 
         login: (store) => {
             $.ajax({
                 type: 'POST',
-                url: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/Users',
+                url: 'https://api.backendless.com/v1/users/login',
                 dataType: 'JSON',
                 headers: {
                     "ContentType" : "application/json",
-                    "application-type" : "REST"
+                    "application-type" : "REST",
+                    "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
+                    "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
                     },
                 data: JSON.stringify({
-                    login: action.login,
-                    password: action.password
+                    email: action.email,
+                    password: action.password,
+                    displayName: action.displayName
                 })
                 }).then( (data,status,xhr) => {
                     receivedUserToken = data['user-token'];
-                    store.dispatch({
-                        type: "LOAD_TWEETS",
+                    dispatch({
+                        type: "LOAD_POSTS",
                         user: new User({
                             id: data.objectId,
                             username: data.username,
@@ -32,4 +34,5 @@ export default function loginUser (user,password) {
                 });
             });
         }
+    }
 }

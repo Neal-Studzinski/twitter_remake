@@ -1,19 +1,23 @@
+
+
 export default function newPost () {
   //All async action creators should return a function that takes 'dispatch' as its argument
   return function (dispatch) {
       //Before ajax call dispatch any needed actions
-      dispatch( { type: "STARTING_NEW_POST" });
+    //   dispatch( { type: "STARTING_NEW_POST" });
 
       console.log('!! POSTING !!', action.postInfo);
       $.ajax({
-          url: 'https://api.backendless.com/A3E8487F-3843-57B1-FFD9-292137BD0E00/0DB613BB-B529-891F-FF9F-0DF48E631900/data/posts',
+          url: 'https://api.backendless.com/v1/data/posts',
           type: 'POST',
           dataType: 'JSON',
           headers: {
               "user-token": currentState.session.userToken,
               "Content-Type": "application/json",
-              "application-type": "REST"
-          },
+              "application-type": "REST",
+              "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
+              "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
+            },
           data: JSON.stringify({
               authorId:           action.postInfo.authorId,
               authorUserName:     action.postInfo.authorUserName,
@@ -35,9 +39,10 @@ export default function newPost () {
           //
         //   },
 
-          }).then( () => {
-              store.dispatch({
-                  type: "LOAD_POSTS"
+    }).then( response => {
+              dispatch({
+                  type: "LOAD_POSTS",
+                  data: response
               });
           });
       }
