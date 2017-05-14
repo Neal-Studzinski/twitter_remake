@@ -24,8 +24,14 @@ export default function newPost () {
               authorDisplayName:  action.postInfo.authorDisplayName,
               authorAvatar:       action.postInfo.authorAvatar,
               body:               action.postInfo.body
-          })
-        //   function createNewTweet(tweet) {
+            }).then( response => {
+                    dispatch({
+                        type: load_posts(),
+                        data: response
+                    });
+                });
+            }
+        //   function createNewPost(post) {
         //       $.ajax({
         //           url: urls.posts,
         //           type: "POST",
@@ -39,12 +45,6 @@ export default function newPost () {
           //
         //   },
 
-    }).then( response => {
-              dispatch({
-                  type: "LOAD_POSTS",
-                  data: response
-              });
-          });
-      }
+
       return currentState;
   }

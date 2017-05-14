@@ -3,7 +3,8 @@ export default function loadPostsSignUp () {
   return function (dispatch) {
 
     //Before ajax call dispatch any needed actions
-        dispatch( { type: "STARTING_LOAD_POSTS_SIGNING_IN" });
+        dispatch(getAllPosts());
+        //dispatch( { type: "VIEW_POSTS" });
 
         $.ajax({
             url: 'https://api.backendless.com/v1/data/posts',

@@ -6,12 +6,12 @@ export default function loadPosts () {
   return function (dispatch) {
       //Before ajax call dispatch any needed actions
       dispatch( { type: "STARTING_LOAD_POST" });
-      let token;
+      let retrievedUserToken;
       $.ajax({
           url: 'https://api.backendless.com/v1/data/posts',
           method: "GET",
           headers: {
-              "user-token": token,
+              "user-token": retrievedUserToken,
               "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
               "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
               }

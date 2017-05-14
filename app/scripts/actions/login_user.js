@@ -1,29 +1,31 @@
-
+import User from '../models/user_model.js';
 export default function loginUser (email,password) {
     return (dispatch) => {
+        let retrievedUserToken;
         dispatch({ type: "STARTING_LOGIN", email: email, password: password });
         //dispatch(loadTodos());
 
-        login: (store) => {
+
             $.ajax({
                 type: 'POST',
                 url: 'https://api.backendless.com/v1/users/login',
                 dataType: 'JSON',
                 headers: {
-                    "ContentType" : "application/json",
+                    "Content-Type" : "application/json",
                     "application-type" : "REST",
                     "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
                     "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
                     },
                 data: JSON.stringify({
-                    email: action.email,
-                    password: action.password,
+                    login: email,
+                    password: password
 
                 })
                 }).then( (data,status,xhr) => {
-                    receivedUserToken = data['user-token'];
+                    retrievedUserToken = data['user-token'];
                     dispatch({
-                        type: "LOAD_POSTS",
+                        type: "STARTING_LOAD_POSTS_SIGNING_IN",
+                        
                         user: new User({
                             id: data.objectId,
                             username: data.username,
@@ -33,6 +35,6 @@ export default function loginUser (email,password) {
                     userToken: data['user-token']
                 });
             });
-        }
+
     }
 }

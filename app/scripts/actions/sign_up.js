@@ -3,7 +3,7 @@ import User from '../models/user_model.js';
 export default function signUp (email,password,displayName) {
   //All async action creators should return a function that takes 'dispatch' as its argument
   return function (dispatch) {
-       let token;
+       let retrievedUserToken;
        //Before ajax call dispatch any needed actions
        dispatch( { type: "STARTING_SIGNUP", email: email, password: password, displayName: displayName });
 
@@ -23,7 +23,7 @@ export default function signUp (email,password,displayName) {
                     displayName: displayName
                 })
                 }).then( (data, status, xhr) => {
-                    token = data['user-token'];
+                    retrievedUserToken = data['user-token'];
                     dispatch({
                         type: "CREATE_USER",
                         user: new User({
@@ -34,7 +34,7 @@ export default function signUp (email,password,displayName) {
                             avatar : data.avatar,
 
                         }),
-                        //userToken: data['user-token']
+                        userToken: data['user-token']
                         });
                     });
 

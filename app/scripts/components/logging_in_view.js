@@ -10,7 +10,7 @@ class logging_in_view extends React.Component {
     }
 
     componentWillMount () {
-        //this.props.history.push("/showing_posts");
+         this.props.history.push("/showing_posts");
          this.props.dispatch(loadPosts())
     }
 

@@ -8,7 +8,9 @@ import store from '../store.js';
 class postsView extends React.Component {
     constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
     }
+
 
     render() {
         return(<section className="page-wrapper chat-view view-content">
@@ -20,11 +22,11 @@ class postsView extends React.Component {
                 </section>
         )
     }
-    // getState() {
-    //     posts.forEach( (post) => {
-    //   (new postView(store, post));
-    // });
-    // }
+     getState() {
+         posts.forEach( (post) => {
+             (new postView(store, post));
+             });
+         }
     handleClick () {
         e.preventDefault();
         let newPostBody = this.refs.new-post.value;

@@ -13,9 +13,9 @@ class loginView extends React.Component {
 
     handleClick (e) {
         e.preventDefault();
-        let username = this.refs.email.value;
+        let email = this.refs.email.value;
         let password = this.refs.password.value;
-        this.props.dispatch(loginUser(username,password));
+        this.props.dispatch(loginUser(email,password));
         this.props.history.push("/showing_posts")
     }
 

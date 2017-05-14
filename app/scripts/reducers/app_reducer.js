@@ -20,7 +20,7 @@ const initialState = {
         },
     posts: [],
     users: [],
-    loadingData: false
+
 };
 
 export default function reducer(currentState, action) {
@@ -34,7 +34,7 @@ export default function reducer(currentState, action) {
 
     switch (action.type) {
 
-        case 'SIGNUP':
+        case 'STARTING_SIGNUP':
             return currentState;
 
         case 'CREATE_USER':
@@ -59,7 +59,10 @@ export default function reducer(currentState, action) {
         case 'STARTING_LOGIN':
 
         case 'STARTING_LOAD_POSTS_SIGNING_IN':
-          //return currentState;
+            return newState({
+                posts: action.posts
+            });
+            //return currentState;
 
 
         case "LOAD_POSTS_SIGNING_IN":
