@@ -11,9 +11,10 @@ export default function loadPosts () {
           url: 'https://api.backendless.com/v1/data/posts',
           method: "GET",
           headers: {
-              "user-token": retrievedUserToken,
+              //"user-token": userToken,
               "application-id": "4233632D-E5E1-BA90-FF1D-8AACAAF84F00",
-              "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
+              "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00",
+              //"Content-Type":
               }
               }).then( (postsData, status, xhr) => {
                   let postObjects = postsData.data.map( (post) => {
@@ -27,7 +28,7 @@ export default function loadPosts () {
                       });
                   });
                   console.log('>> put into Post objects: ', postObjects);
-                  dispatch(getAllPosts());
+                  //dispatch(getAllPosts());
                   //this.props.history.push("/showing_posts");
                   dispatch({
                       type: "VIEW_POSTS",

@@ -5,7 +5,7 @@ export default function getAllPosts () {
     dispatch( { type: "STARTING_GETTING_ALL_POSTS" });
 
      return $.getJSON('https://api.backendless.com/v1/data/posts').then((data) => {
-         dispatch(actions.postsView(data));
+         dispatch(action.postsView(data));
         // ,
         // headers: {
         //     "Content-Type": "application/json",
