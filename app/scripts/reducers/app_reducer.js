@@ -52,10 +52,11 @@ export default function reducer(currentState, action) {
         case "LOGIN":
 
         case "STARTING_LOGIN":
+            return currentState;
 
         case "STARTING_LOAD_POSTS_SIGNING_IN":
             return newState({
-                posts: action.posts || []
+                posts: action.postsInfo || []
             });
         //return currentState;
 
@@ -63,24 +64,29 @@ export default function reducer(currentState, action) {
         case "LOAD_POSTS_SIGNING_IN":
             return currentState;
 
-        case "STARTING_LOAD_POSTS":
+        case "STARTING_LOAD_POST":
             return currentState;
         case "STARTING_GETTING_ALL_POSTS":
             return currentState;
         case "LOAD_POSTS":
             return currentState;
         case "ENDING_GETTING_ALL_POSTS":
+            return currentState;
+
+        case "LOAD_POSTS_INTO_STATE":
+            return Object.assign({}, currentState, { posts: action.posts });
 
         case "VIEW_POSTS":
             //this.props.history.push("/showing_posts");
-            return newState({
-                posts: action.posts
-            });
+            window.location.hash = "#/showing_posts";
+            // return Object.assign({}, currentState, { posts: action.posts });
+            return currentState;
+
         case "STARTING_NEW_POST":
 
         case "NEW_POST":
             return newState({
-                posts: action.posts
+                posts: action.postInfo
             });
         case "DELETE_POST":
 

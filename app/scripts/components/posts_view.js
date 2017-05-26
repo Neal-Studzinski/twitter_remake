@@ -3,6 +3,7 @@ import headerView from "./header_view.js";
 import postView from "./post_view.js";
 import { connect } from "react-redux";
 import store from "../store.js";
+import getAllPosts from "../actions/view_posts.js";
 
 class postsView extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class postsView extends React.Component {
     }
 
     render() {
-        console.log(this.props.posts);
+        console.log("posts", this.props.posts);
         return (
             <section className="page-wrapper chat-view view-content">
                 <form className="form-new-post">
@@ -31,7 +32,15 @@ class postsView extends React.Component {
                     </button>
                 </form>
                 <div className="posts-wrapper"><h3>All Posts</h3></div>
-                //{this.props.posts.map(post => <p>{post.body}</p>)}
+
+                {this.props.posts.map(post => {
+                    return (
+                        <div className="post-wrapper">
+                            <p>{post.authorDisplayName}</p>
+                            <p>{post.body}</p>
+                        </div>
+                    );
+                })}
             </section>
         );
     }

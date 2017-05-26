@@ -3,9 +3,11 @@ import loadPostsSignUp from "../actions/load_posts_signing_in.js";
 export default function loginUser(login, password) {
     return dispatch => {
         let retrievedUserToken;
-        dispatch({ type: "STARTING_LOGIN", login: login, password: password });
+        // dispatch({ type: "STARTING_LOGIN", login: login, password: password });
         //dispatch(loadTodos());
-
+        // "VIEW_POSTS":
+        //this.props.history.push("/showing_posts");
+        dispatch({ type: "VIEW_POSTS" });
         $.ajax({
             type: "POST",
             url: "https://api.backendless.com/v1/users/login",
@@ -17,8 +19,8 @@ export default function loginUser(login, password) {
                 "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
             },
             data: JSON.stringify({
-                login: login,
-                password: password
+                login: "user@example.com",
+                password: "password"
             })
         }).then((data, status, xhr) => {
             retrievedUserToken = data["user-token"];
@@ -33,6 +35,7 @@ export default function loginUser(login, password) {
                     bio: data.bio
                 })
             });
+            dispatch({ type: "LOAD_POSTS_INTO_STATE" });
         });
         //return retrievedUserToken;
     };
