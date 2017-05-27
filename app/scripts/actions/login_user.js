@@ -1,5 +1,7 @@
 import User from "../models/user_model.js";
 import loadPostsSignUp from "../actions/load_posts_signing_in.js";
+import loadPosts from "../actions/load_posts.js";
+
 export default function loginUser(login, password) {
     return dispatch => {
         let retrievedUserToken;
@@ -7,7 +9,7 @@ export default function loginUser(login, password) {
         //dispatch(loadTodos());
         // "VIEW_POSTS":
         //this.props.history.push("/showing_posts");
-        dispatch({ type: "VIEW_POSTS" });
+        dispatch({ type: "SIGNING_IN" });
         $.ajax({
             type: "POST",
             url: "https://api.backendless.com/v1/users/login",
@@ -24,9 +26,9 @@ export default function loginUser(login, password) {
             })
         }).then((data, status, xhr) => {
             retrievedUserToken = data["user-token"];
-            dispatch(loadPostsSignUp());
+            //dispatch(loadPostsSignUp());
             dispatch({
-                type: "STARTING_LOAD_POSTS_SIGNING_IN",
+                type: "LOAD_USER",
                 userToken: data["user-token"],
                 user: new User({
                     id: data.objectId,
@@ -35,7 +37,8 @@ export default function loginUser(login, password) {
                     bio: data.bio
                 })
             });
-            dispatch({ type: "LOAD_POSTS_INTO_STATE" });
+            //dispatch({ type: "GET_POST_DATA" });
+            dispatch(loadPostsSignUp());
         });
         //return retrievedUserToken;
     };

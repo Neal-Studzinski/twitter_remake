@@ -4,15 +4,34 @@ import postView from "./post_view.js";
 import { connect } from "react-redux";
 import store from "../store.js";
 import getAllPosts from "../actions/view_posts.js";
+import newPost from "../actions/new_post.js";
 
 class postsView extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.handlePosts = this.handlePosts.bind(this);
+    }
+
+    handlePosts() {
+        {
+            this.props.posts.map(post => {
+                return (
+                    <section>
+                        <div className="posts-wrapper">
+                            <h3>All Posts</h3>
+                        </div>
+                        <div className="post-wrapper">
+                            <p>{post.authorDisplayName}</p>
+                            <p>{post.body}</p>
+                        </div>
+                    </section>
+                );
+            });
+        }
     }
 
     render() {
-        console.log("posts", this.props.posts);
         return (
             <section className="page-wrapper chat-view view-content">
                 <form className="form-new-post">
@@ -31,16 +50,7 @@ class postsView extends React.Component {
                         +
                     </button>
                 </form>
-                <div className="posts-wrapper"><h3>All Posts</h3></div>
 
-                {this.props.posts.map(post => {
-                    return (
-                        <div className="post-wrapper">
-                            <p>{post.authorDisplayName}</p>
-                            <p>{post.body}</p>
-                        </div>
-                    );
-                })}
             </section>
         );
     }
@@ -52,6 +62,7 @@ class postsView extends React.Component {
             let newPostInfo = {
                 body: newPostBody
             };
+            this.props.dispatch(newPost(newPostInfo));
             this.props.dispatch({
                 type: "NEW_POST",
                 postInfo: newPostInfo

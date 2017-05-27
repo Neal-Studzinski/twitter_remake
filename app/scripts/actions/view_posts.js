@@ -12,10 +12,7 @@ export default function getAllPosts() {
                 "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
                 //"user-token": currentState.session.userToken
             }
-        }).then(data => {
-            //dispatch(postsView(data));
-            dispatch({ type: "ENDING_GETTING_ALL_POSTS" });
-        });
+        }).then(data => {});
     };
 
     // return $.getJSON(

@@ -30,9 +30,6 @@ export default function reducer(currentState, action) {
     }
 
     switch (action.type) {
-        case "STARTING_SIGNUP":
-            return currentState;
-
         case "CREATE_USER":
             console.log("I added a user");
             console.log(action);
@@ -40,7 +37,8 @@ export default function reducer(currentState, action) {
                 session: {
                     user: action.user,
                     userToken: action.token
-                }
+                },
+                users: session.push(users)
             });
         // return newState = {
         //     email: action.email,
@@ -49,45 +47,32 @@ export default function reducer(currentState, action) {
         //    };
 
 
-        case "LOGIN":
-
-        case "STARTING_LOGIN":
+        case "SIGNING_IN":
             return currentState;
 
-        case "STARTING_LOAD_POSTS_SIGNING_IN":
+        case "LOAD_USER":
             return newState({
-                posts: action.postsInfo || []
+                users: action.user
             });
+
+        case "RETURN_POST_DATA":
+            return newState({
+                posts: action.posts || []
+            });
+        // case "VIEW_POSTS":
+        //     //this.props.history.push("/showing_posts");
+        //     window.location.hash = "#/showing_posts";
+        //     return Object.assign({}, currentState, { posts: action.posts });
         //return currentState;
 
 
-        case "LOAD_POSTS_SIGNING_IN":
-            return currentState;
-
-        case "STARTING_LOAD_POST":
-            return currentState;
-        case "STARTING_GETTING_ALL_POSTS":
-            return currentState;
-        case "LOAD_POSTS":
-            return currentState;
-        case "ENDING_GETTING_ALL_POSTS":
-            return currentState;
-
-        case "LOAD_POSTS_INTO_STATE":
-            return Object.assign({}, currentState, { posts: action.posts });
-
-        case "VIEW_POSTS":
-            //this.props.history.push("/showing_posts");
-            window.location.hash = "#/showing_posts";
-            // return Object.assign({}, currentState, { posts: action.posts });
-            return currentState;
-
-        case "STARTING_NEW_POST":
-
         case "NEW_POST":
+            let addPost = action.postInfo;
+            //addPost.push(posts);
             return newState({
-                posts: action.postInfo
+                posts: addPost || []
             });
+
         case "DELETE_POST":
 
         default:

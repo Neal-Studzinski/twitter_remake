@@ -7,9 +7,7 @@ export default function loadPostsSignUp() {
     return function(dispatch) {
         let userToken;
         //Before ajax call dispatch any needed actions
-        dispatch(getAllPosts());
-
-        //dispatch( { type: "VIEW_POSTS" });
+        //dispatch(getAllPosts());
 
         $.ajax({
             url: "https://api.backendless.com/v1/data/posts",
@@ -23,9 +21,8 @@ export default function loadPostsSignUp() {
                 "secret-key": "A0800D52-26C1-7B70-FF38-D7FAD7A39E00"
             }
         }).then((postsData, status, xhr) => {
-            console.log(">> returned post data: ", postsData);
+            //console.log(">> returned post data: ", postsData);
             let postObjects = postsData.data.map(post => {
-                console.log(post);
                 return new Post({
                     postId: post.objectId,
                     authorId: post.authorId,
@@ -36,8 +33,10 @@ export default function loadPostsSignUp() {
                     timePosted: post.created
                 });
             });
-            console.log(">> put into Post objects: ", postObjects);
-            dispatch(loadPosts(postObjects));
+            //console.log(">> put into Post objects: ", postObjects);
+            //dispatch(loadPosts(postObjects));
+            dispatch({ type: "RETURN_POST_DATA", posts: postObjects });
+
             // dispatch({
             //     type: "VIEW_POSTS",
             //     posts: postObjects
